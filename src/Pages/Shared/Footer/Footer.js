@@ -7,21 +7,21 @@ const Footer = () => {
         <div>
             <footer className="footer p-10 bg-base-200 text-base-content">
                 <div className='mx-auto'>
-                    <span className="footer-title">Services</span>
+                    <span className="text-lg  font-bold">Services</span>
                     <a href='/' className="link link-hover">Branding</a>
                     <a href='/' className="link link-hover">Design</a>
                     <a href='/' className="link link-hover">Marketing</a>
                     <a href='/' className="link link-hover">Advertisement</a>
                 </div>
                 <div className='mx-auto'>
-                    <span className="footer-title">Company</span>
+                    <span className="text-lg  font-bold">Company</span>
                     <a href='/' className="link link-hover">About us</a>
                     <a href='/' className="link link-hover">Contact</a>
                     <a href='/' className="link link-hover">Jobs</a>
                     <a href='/' className="link link-hover">Press kit</a>
                 </div>
                 <div className='mx-auto'>
-                    <span className="footer-title">Legal</span>
+                    <span className="text-lg font-bold">Legal</span>
                     <a href='/' className="link link-hover">Terms of use</a>
                     <a href='/' className="link link-hover">Privacy policy</a>
                     <a href='/' className="link link-hover">Cookie policy</a>
@@ -37,8 +37,8 @@ const Footer = () => {
                     </div>
                 </div>
             </footer>
-            <footer className="footer px-10 py-4 border-t bg-base-200 text-base-content border-base-300">
-                <div className="items-center grid-flow-col">
+            <footer className="footer px-10 py-7 border-t bg-base-200 text-base-content border-base-300">
+                <div className="items-center grid-flow-col ml-12">
                     <img src={logo} style={{ height: "40px" }} alt="" />
                     <p className='font-bold'>Exclusive Wear Ltd. <br />Providing reliable products since 1992</p>
                 </div>
