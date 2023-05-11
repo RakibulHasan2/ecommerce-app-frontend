@@ -1,23 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import img from '../../Assets/Images/output.png'
 import './SignUp.css'
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { FcGoogle} from 'react-icons/fc';
-import {FaFacebookSquare} from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
+import { FaFacebookSquare } from 'react-icons/fa';
 
 const SignUp = () => {
+    const [active, setActive] = useState(false)
     const { register, handleSubmit, formState: { errors } } = useForm();
     const handleSignUp = data => {
 
     }
+    const signUpPage = () =>{
+        setActive(!active);
+    }
     return (
-        <div className='flex justify-center items-center' style={{ backgroundImage: `url(${img})`, backgroundRepeat: "no-repeat", height: "800px", backgroundSize: "cover" }}>
+        <div className='flex justify-center items-center' style={{ backgroundImage: `url(${img})`, backgroundRepeat: "no-repeat", height: "800px", backgroundSize: "cover" , opacity: "0.8"  }}>
             <div className='lg:p-12 p-5 bg-white rounded-2xl' >
-                <h2 className='text-3xl text-center font-bold'>Register</h2>
+                <div className='flex justify-evenly mb-5'>
+                    <Link to='/signup'><h2 className='text-3xl text-center font-bold hover:text-gray-400' onClick={signUpPage} 
+                     style={{ color: active ? "black" : "rgba(27, 16, 146, 0.916)" }}>Register</h2></Link>
+                    <Link to='/login'><h2 className='text-3xl text-center font-bold hover:text-gray-400'>Sign In</h2></Link>
+                </div>
+                <hr className='solid border mb-5' />
                 <form onSubmit={handleSubmit(handleSignUp)}>
                     <div className="form-control w-full max-w-xs mx-auto">
-                        <label className="label"> <span className="label-text">Name</span></label>
+                        <label className="label"> <span className="label-text ">Name</span></label>
                         <input type="text" {...register("name", {
                             required: "Name is Required"
                         })} className="input input-bordered w-full max-w-xs" />
