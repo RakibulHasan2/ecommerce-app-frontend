@@ -1,26 +1,74 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import img from '../../Assets/Images/output.png'
 import './SignUp.css'
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebookSquare } from 'react-icons/fa';
+import { AuthContext } from '../../context/AuthProvider';
 
 const SignUp = () => {
+    const { createUser, updateUser } = useContext(AuthContext)
     const [active, setActive] = useState(false)
+    const [signUpError, setSignUPError] = useState('')
+    const [createdUserEmail, setCreatedUserEmail] = useState('')
     const { register, handleSubmit, formState: { errors } } = useForm();
+
     const handleSignUp = data => {
+        setSignUPError('');
+        createUser(data.email, data.password)
+            .then(result => {
+                const user = result.user;
+                // console.log(user)
+                // console.log("user is", user);
+                // toast.success('User Created Successfully.')
+                const userInfo = {
+                    displayName: data.name,
+                    email: data.email
+                }
+                // console.log(userInfo)
+                updateUser(userInfo)
+                    .then(() => {
+                        saveUser(data.name, data.email)
+                    })
+                    .catch(err => console.log(err));
+            })
+            .catch(error => {
+                console.log(error)
+                setSignUPError(error.message)
+            });
 
     }
-    const signUpPage = () =>{
+
+    const saveUser = (name, email) => {
+        const user = { name, email };
+        // console.log(user, "save user")
+        fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log('save user',data)
+                setCreatedUserEmail(email)
+            })
+            .catch(error => {
+                console.log(error)
+            });
+
+    }
+    const signUpPage = () => {
         setActive(!active);
     }
     return (
-        <div className='flex justify-center items-center' style={{ backgroundImage: `url(${img})`, backgroundRepeat: "no-repeat", height: "800px", backgroundSize: "cover" , opacity: "0.8"  }}>
+        <div className='flex justify-center items-center' style={{ backgroundImage: `url(${img})`, backgroundRepeat: "no-repeat", height: "800px", backgroundSize: "cover", opacity: "0.8" }}>
             <div className='lg:p-12 p-5 bg-white rounded-2xl' >
                 <div className='flex justify-evenly mb-5'>
-                    <Link to='/signup'><h2 className='text-3xl text-center font-bold hover:text-gray-400' onClick={signUpPage} 
-                     style={{ color: active ? "black" : "rgba(27, 16, 146, 0.916)" }}>Register</h2></Link>
+                    <Link to='/signup'><h2 className='text-3xl text-center font-bold hover:text-gray-400' onClick={signUpPage}
+                        style={{ color: active ? "black" : "rgba(27, 16, 146, 0.916)" }}>Register</h2></Link>
                     <Link to='/login'><h2 className='text-3xl text-center font-bold hover:text-gray-400'>Sign In</h2></Link>
                 </div>
                 <hr className='solid border mb-5' />
