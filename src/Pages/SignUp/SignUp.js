@@ -1,15 +1,17 @@
 import React, { useContext, useState } from 'react';
 import img from '../../Assets/Images/output.png'
 import './SignUp.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebookSquare } from 'react-icons/fa';
 import { AuthContext } from '../../context/AuthProvider';
+import { toast } from 'react-hot-toast';
 
 const SignUp = () => {
     const { createUser, updateUser } = useContext(AuthContext)
     const [active, setActive] = useState(false)
+    const navigate = useNavigate();
     const [signUpError, setSignUPError] = useState('')
     const [createdUserEmail, setCreatedUserEmail] = useState('')
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -21,7 +23,7 @@ const SignUp = () => {
                 const user = result.user;
                 // console.log(user)
                 // console.log("user is", user);
-                // toast.success('User Created Successfully.')
+                toast.success('User Created Successfully.')
                 const userInfo = {
                     displayName: data.name,
                     email: data.email
@@ -30,6 +32,7 @@ const SignUp = () => {
                 updateUser(userInfo)
                     .then(() => {
                         saveUser(data.name, data.email)
+                        navigate('/')
                     })
                     .catch(err => console.log(err));
             })
@@ -39,7 +42,6 @@ const SignUp = () => {
             });
 
     }
-
     const saveUser = (name, email) => {
         const user = { name, email };
         // console.log(user, "save user")
@@ -52,7 +54,7 @@ const SignUp = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log('save user',data)
+               
                 setCreatedUserEmail(email)
             })
             .catch(error => {

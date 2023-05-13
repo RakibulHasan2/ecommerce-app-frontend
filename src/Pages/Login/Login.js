@@ -1,15 +1,76 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebookSquare } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import img from '../../Assets/Images/output.png'
 import './Login.css'
+import { AuthContext } from './../../context/AuthProvider';
+import { toast } from 'react-hot-toast';
 const Login = () => {
     const [active, setActive] = useState(false)
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const handleLogin = data => {
+    const { signIn, signInPopUp,updateUser } = useContext(AuthContext);
+    const [loginError, setLoginError] = useState('');
+    const [loginUserEmail, setLoginUserEmail] = useState('')
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location.state?.from?.pathname || '/';
 
+    const handleLogin = data => {
+        // console.log(data);
+        setLoginError('');
+        signIn(data.email, data.password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+                setLoginUserEmail(data.email)
+                toast.success('Logged In Successfully.')
+                navigate(from, {replace: true});
+            })
+            .catch(error => {
+                console.log(error.message)
+                setLoginError(error.message);
+            });
+    }
+    const googleSignIn = () => {
+        setLoginError('');
+        signInPopUp()
+        // console.log(signInPopUp)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+                const userInfo = {
+                    displayName: user.displayName,
+                    email: user.email,
+                }
+               
+                updateUser(userInfo)
+                .then(() => {
+                    saveUser(user.displayName, user.email)
+                })
+                .catch(err => console.log(err));
+            })
+            .catch(error => {
+                console.log(error.message)
+            });
+    }
+
+    const saveUser = (name, email) => {
+        const user = { name, email};
+        // console.log(user);
+        fetch('http://localhost:5000/users', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+            .then(res => res.json())
+            .then(data => {
+                // console.log('save user',data)
+                setLoginUserEmail(email)
+            })
     }
     const signInPage = () =>{
         setActive(!active);
@@ -49,7 +110,7 @@ const Login = () => {
                     <hr className='solid border mb-5' style={{ border: "1px solid rgb(66, 63, 63)" }} />
                     <p className='text-center mb-5'>or sign in with</p>
                     <div className='flex lg:flex-row lg:justify-normal flex-col justify-center'>
-                        <button className='btn btn-outline mr-4 lg:mb-0 mb-5 w-full lg:w-auto'><FcGoogle className='mr-2'></FcGoogle>Login With Google</button>
+                        <button onClick={googleSignIn} className='btn btn-outline mr-4 lg:mb-0 mb-5 w-full lg:w-auto'><FcGoogle className='mr-2'></FcGoogle>Login With Google</button>
                         <button className='btn btn-outline '><FaFacebookSquare className='mr-2 text-blue-900 text-lg'></FaFacebookSquare>Login With Facebook</button>
                     </div>
 
