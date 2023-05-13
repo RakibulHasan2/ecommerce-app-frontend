@@ -9,7 +9,7 @@ import { AuthContext } from '../../context/AuthProvider';
 import { toast } from 'react-hot-toast';
 
 const SignUp = () => {
-    const { createUser, updateUser } = useContext(AuthContext)
+    const { createUser, updateUser,signInPopUp, } = useContext(AuthContext)
     const [active, setActive] = useState(false)
     const navigate = useNavigate();
     const [signUpError, setSignUPError] = useState('')
@@ -62,6 +62,31 @@ const SignUp = () => {
             });
 
     }
+    const googleSignIn = () => {
+        setSignUPError('');
+        signInPopUp()
+            // console.log(signInPopUp)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+                const userInfo = {
+                    displayName: user.displayName,
+                    email: user.email,
+                }
+
+                updateUser(userInfo)
+                    .then(() => {
+                        saveUser(user.displayName, user.email)
+                        toast.success('Logged In Successfully.')
+                        navigate('/');
+                    })
+                    .catch(err => console.log(err));
+            })
+            .catch(error => {
+                console.log(error.message)
+            });
+    }
+
     const signUpPage = () => {
         setActive(!active);
     }
@@ -107,7 +132,7 @@ const SignUp = () => {
                     <hr className='solid border mb-5' style={{ border: "1px solid rgb(66, 63, 63)" }} />
                     <p className='text-center mb-5'>or sign in with</p>
                     <div className='flex lg:flex-row lg:justify-normal flex-col justify-center'>
-                        <button className='btn btn-outline mr-4 lg:mb-0 mb-5 w-full lg:w-auto'><FcGoogle className='mr-2'></FcGoogle>Login With Google</button>
+                        <button onClick={googleSignIn} className='btn btn-outline mr-4 lg:mb-0 mb-5 w-full lg:w-auto'><FcGoogle className='mr-2'></FcGoogle>Login With Google</button>
                         <button className='btn btn-outline '><FaFacebookSquare className='mr-2 text-blue-900 text-lg'></FaFacebookSquare>Login With Facebook</button>
                     </div>
 

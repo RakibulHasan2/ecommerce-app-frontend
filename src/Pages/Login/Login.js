@@ -10,7 +10,7 @@ import { toast } from 'react-hot-toast';
 const Login = () => {
     const [active, setActive] = useState(false)
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { signIn, signInPopUp,updateUser } = useContext(AuthContext);
+    const { signIn, signInPopUp, updateUser } = useContext(AuthContext);
     const [loginError, setLoginError] = useState('');
     const [loginUserEmail, setLoginUserEmail] = useState('')
     const location = useLocation();
@@ -26,7 +26,7 @@ const Login = () => {
                 console.log(user);
                 setLoginUserEmail(data.email)
                 toast.success('Logged In Successfully.')
-                navigate(from, {replace: true});
+                navigate(from, { replace: true });
             })
             .catch(error => {
                 console.log(error.message)
@@ -36,7 +36,7 @@ const Login = () => {
     const googleSignIn = () => {
         setLoginError('');
         signInPopUp()
-        // console.log(signInPopUp)
+            // console.log(signInPopUp)
             .then(result => {
                 const user = result.user;
                 console.log(user);
@@ -44,12 +44,14 @@ const Login = () => {
                     displayName: user.displayName,
                     email: user.email,
                 }
-               
+
                 updateUser(userInfo)
-                .then(() => {
-                    saveUser(user.displayName, user.email)
-                })
-                .catch(err => console.log(err));
+                    .then(() => {
+                        saveUser(user.displayName, user.email)
+                        toast.success('Logged In Successfully.')
+                        navigate(from, { replace: true });
+                    })
+                    .catch(err => console.log(err));
             })
             .catch(error => {
                 console.log(error.message)
@@ -57,7 +59,7 @@ const Login = () => {
     }
 
     const saveUser = (name, email) => {
-        const user = { name, email};
+        const user = { name, email };
         // console.log(user);
         fetch('http://localhost:5000/users', {
             method: 'POST',
@@ -72,7 +74,7 @@ const Login = () => {
                 setLoginUserEmail(email)
             })
     }
-    const signInPage = () =>{
+    const signInPage = () => {
         setActive(!active);
     }
     return (
@@ -80,8 +82,8 @@ const Login = () => {
             <div className='lg:p-12 p-5 bg-white rounded-2xl' >
                 <div className='flex justify-evenly mb-5'>
                     <Link to='/signup'><h2 className='text-3xl text-center font-bold hover:text-gray-400'>Register</h2></Link>
-                    <Link to='/login'><h2 className='text-3xl text-center font-bold hover:text-gray-400' onClick={signInPage} 
-                     style={{ color: active ? "black" : "rgba(27, 16, 146, 0.916)" }}>Sign In</h2></Link>
+                    <Link to='/login'><h2 className='text-3xl text-center font-bold hover:text-gray-400' onClick={signInPage}
+                        style={{ color: active ? "black" : "rgba(27, 16, 146, 0.916)" }}>Sign In</h2></Link>
                 </div>
                 <hr className='solid border mb-5' />
                 <form onSubmit={handleSubmit(handleLogin)}>
