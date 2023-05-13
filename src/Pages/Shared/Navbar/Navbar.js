@@ -11,7 +11,7 @@ const Navbar = () => {
             .catch(err => console.log(err))
     }
     return (
-        <div className="navbar bg-base-200 flex justify-around p-6">
+        <div className="navbar bg-slate-100 flex justify-around p-3">
             <div className="">
                 <a href='/' className="btn btn-ghost normal-case text-2xl text-bold">Exclusive Wear</a>
                 <img className='mx-3' src={logo} alt="" style={{ height: "40px" }} />
@@ -39,7 +39,7 @@ const Navbar = () => {
                                     </label>
                                     <ul tabIndex={0} className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52">
                                         <li>
-                                            <a href='/' className="justify-between">
+                                            <a href='/' className="justify-between font-bold"> Profile
                                                 <span className="badge">New</span>
                                             </a>
                                         </li>
