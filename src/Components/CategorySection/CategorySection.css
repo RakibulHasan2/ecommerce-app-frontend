@@ -2,40 +2,84 @@
     display: grid;
     grid-template-rows: 200px 100px 200px 200px 200px; 
     /* 200px 100px 200px 200px 200px 200px */
-    grid-template-columns:  1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns:  150px 150px 200px 100px 100px 200px;
     /* 300px 200px 200px 100px 100px 200px */
     gap: 10px;
 }
 
-.item1 {
+.shirt {
+    background-image: url('../../Assets/Images/CategoriesPic/Jean-Cafe-Maroon-100-Cotton-SDL060281791-1-b9a4b.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
     grid-row: 1/4;
     grid-column: 1/3;
 }
+.button{
+    display: none;
+    width: 9rem;
+    padding: 0.75rem;
+    background-color: rgb(26, 154, 189);
+    margin-bottom: 2.5rem;
+    color: white;
+    font-weight: 600;
+    height: 70px;
+    border-radius: 0.75rem;
+    font-size: 18px;
+}
 
-.item2 {
+
+.hoverDiv:hover .hoverEffect{
+    display: none;
+}
+.hoverDiv:hover .button{
+    display: block;   
+}
+
+.t-shirts{
+    background-image: url('../../Assets/Images/CategoriesPic/isolated-black-t-shirt-model-front-view.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
     grid-row: 1/3;
     grid-column: 3/5;
 }
 
-.item3 {
+.jeans {
+    background-image: url('../../Assets/Images/CategoriesPic/denims.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
     grid-row: 1/3;
     grid-column: 5/7;
 }
 
-.item4 {
+.bag {
+    background-image: url('../../Assets/Images/CategoriesPic/laptopbackpacks-2048px-6879.png');
+    background-repeat: no-repeat;
+    background-size: cover;
     grid-row: 3/5;
     grid-column: 3/7;
 }
 
-.item5 {
+.shoe {
+    background-image: url('../../Assets/Images/CategoriesPic/istockphoto-172417586-612x612.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
     grid-column: 1/3;
 }
-.item6{
+.watch{
+    background-image: url('../../Assets/Images/CategoriesPic/CURREN-8329-Watches-price-i.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
     grid-column: 1/3;
 }
-.item7{
+.sneaker{
+    background-image: url('../../Assets/Images/CategoriesPic/BVJ82E1ILO-1-scaled.png');
+    background-repeat: no-repeat;
+    background-size: cover;
     grid-column: 3/5;
 }
-.item8{
+.hat{
+    background-image: url('../../Assets/Images/CategoriesPic/Types-of-Mens-Hats-Banner.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
     grid-column: 5/7;
 }
